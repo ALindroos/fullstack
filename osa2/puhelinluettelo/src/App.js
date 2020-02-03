@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import personService from './services/persons'
+import './index.css'
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return(
+    <div className='succes'>
+      {message}
+    </div>
+  )
+}
 
 const Number = ({ person, delPerson }) => {
   return (
     <p>
-      {person.name} 
-      {person.number}
-      <button onClick={delPerson}>delete</button>
+      {person.name} {person.number} <button onClick={delPerson}>delete</button>
     </p>
   )
 }
@@ -43,7 +54,7 @@ const PersonForm = (props) => {
 const Filter = ({ onChange }) => {
   return (
     <div>
-      filter with
+      filter with:
       <input onChange={onChange} />
     </div>
   )  
@@ -54,14 +65,22 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [ succesMessage, setSuccesMessage ] = useState(null)
 
   useEffect(() => {
     personService
       .getAll()
-      .then(initialPersosn => {
-        setPersons(initialPersosn)
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
+
+  const showMessage = (message) => {
+    setSuccesMessage(message)
+              setTimeout(() => {
+                setSuccesMessage(null)
+              }, 5000)
+  }
 
   const updatePerson = (personObject, person) => {
     if (window.confirm(
@@ -74,6 +93,7 @@ const App = () => {
             setPersons(persons.map(p => p.id !== returnedPerson.id ? p : returnedPerson))
             setNewName('')
             setNewNumber('')
+            showMessage(`${person.name}'s number updated`)
           })
       }
   }
@@ -93,6 +113,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          showMessage(`${personObject.name} added`)
         })
     }
   }
@@ -103,6 +124,7 @@ const App = () => {
         .remove(person.id)
         .then(returnedPerson => {
           setPersons(persons.filter(p => p.id !== person.id))
+          showMessage(`${person.name} deleted`)
         })
     }
   }
@@ -118,6 +140,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={succesMessage} />
       <Filter onChange={handleFilterChange} />
       <h2>Add new</h2>
       <PersonForm 

@@ -15,7 +15,7 @@ const ListCountry = ({ country }) => {
   return (
     <div>
       {country.name}
-      <button onClick={() => console.log('click')}>show</button>
+      <button onClick={() => console.log(country.name)}>show</button>
     </div>
   )
 }
@@ -41,7 +41,6 @@ const Country = ({ country }) => {
 } 
 
 const Results = ({ resultCountries }) => {
-  console.log(resultCountries.length)
 
   if (resultCountries.length > 10) {
     return (
@@ -54,7 +53,10 @@ const Results = ({ resultCountries }) => {
     return (
       <div>
         {resultCountries.map(c => 
-          <ListCountry key={c.name} country={c}/>
+          <ListCountry
+            key={c.name}
+            country={c}
+          />
         )}
       </div>
     )
@@ -89,7 +91,9 @@ const App = () => {
   return (
     <div>
       <Filter onChange={handleFilterChange} />
-      <Results resultCountries={resultCountries} />
+      <Results 
+        resultCountries={resultCountries}
+      />
     </div>
   )
 }
