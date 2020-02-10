@@ -5,7 +5,7 @@ node_modules/
 /coverage
 
 # production
-
+.env
 
 # misc
 .DS_Store
