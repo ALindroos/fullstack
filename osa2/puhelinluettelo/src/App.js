@@ -14,6 +14,18 @@ const Notification = ({ message }) => {
   )
 }
 
+const ErrorNotification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='error'>
+      {message}
+    </div>
+  )
+}
+
 const Number = ({ person, delPerson }) => {
   return (
     <p>
@@ -66,6 +78,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
   const [ succesMessage, setSuccesMessage ] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -79,6 +92,13 @@ const App = () => {
     setSuccesMessage(message)
               setTimeout(() => {
                 setSuccesMessage(null)
+              }, 5000)
+  }
+
+  const showError = (message) => {
+    setErrorMessage(message)
+              setTimeout(() => {
+                setErrorMessage(null)
               }, 5000)
   }
 
@@ -115,6 +135,10 @@ const App = () => {
           setNewNumber('')
           showMessage(`${personObject.name} added`)
         })
+        .catch(error => {
+          console.log(error.response.data)
+          showError(`${error.response.data.error}`)
+        })
     }
   }
 
@@ -141,6 +165,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={succesMessage} />
+      <ErrorNotification message={errorMessage} />
       <Filter onChange={handleFilterChange} />
       <h2>Add new</h2>
       <PersonForm 
