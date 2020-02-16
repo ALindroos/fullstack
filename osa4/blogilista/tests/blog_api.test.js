@@ -8,11 +8,7 @@ const api = supertest(app)
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-
-  blogDummy.allBlogs.map(async (blog) => {
-    const blogObject = new Blog(blog)
-    await blogObject.save()
-  })
+  await Blog.insertMany(blogDummy.allBlogs)
 })
 
 describe('Getting all blogs', () => {
@@ -45,7 +41,7 @@ describe('Adding new blogs', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
-      .expect(201)
+      .expect(200)
       .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
@@ -58,13 +54,33 @@ describe('Adding new blogs', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
-      .expect(201)
+      .expect(200)
       .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
     const content = response.body.filter(r => r.title === 'No likes')
     expect(response.body.length).toBe(blogDummy.allBlogs.length + 1)
     expect(content[0].likes).toBe(0)
+  })
+  test('new blog without given url fails and doesnt get added', async () => {
+    const newBlog = blogDummy.noUrlBlog
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(blogDummy.allBlogs.length)
+  })
+  test('new blog without title fails and doesnt get added', async () => {
+    const newBlog = blogDummy.noTitleBlog
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(blogDummy.allBlogs.length)
   })
 })
 

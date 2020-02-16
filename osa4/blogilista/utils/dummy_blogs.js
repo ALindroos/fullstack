@@ -72,10 +72,25 @@ const noLikesBlog = {
   url: 'doesnt matter'
 }
 
+//no url
+const noUrlBlog = {
+  title: 'no Url',
+  author: 'luddite',
+  likes: 9000
+}
+
+const noTitleBlog = {
+  author: 'procrastinator',
+  url: 'ToDo',
+  likes: 3
+}
+
 
 module.exports = {
   singleBlog,
   allBlogs,
   mostLikedBlog,
-  noLikesBlog
+  noLikesBlog,
+  noUrlBlog,
+  noTitleBlog
 }
