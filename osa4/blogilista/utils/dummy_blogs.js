@@ -1,3 +1,5 @@
+
+// returns a list of dummy blog objects
 const allBlogs = [
   {
     id: '5a422a851b54a676234d17f7',
@@ -43,16 +45,18 @@ const allBlogs = [
   }
 ]
 
+// returns *a list* containing one blog object
 const singleBlog = [
   {
-    id: '5a422a851b54a676234d17f7',
-    title: 'React patterns',
-    author: 'Michael Chan',
-    url: 'https://reactpatterns.com/',
+    id: '5a422bc61b54a676234d17fd',
+    title: 'SeaBed - A Diary Entry',
+    author: 'Kastel',
+    url: 'https://tanoshimi.xyz/2016/04/16/ever17-review/',
     likes: 7
   }
 ]
 
+// returns blog object with most likes
 const mostLikedBlog = {
   id: '5a422b3a1b54a676234d17f9',
   title: 'Canonical string reduction',
@@ -61,10 +65,17 @@ const mostLikedBlog = {
   likes: 12
 }
 
+//returns blog with no likes
+const noLikesBlog = {
+  title: 'No likes',
+  author: 'sad boy',
+  url: 'doesnt matter'
+}
 
 
 module.exports = {
   singleBlog,
   allBlogs,
-  mostLikedBlog
+  mostLikedBlog,
+  noLikesBlog
 }

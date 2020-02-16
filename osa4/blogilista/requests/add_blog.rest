@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Cupcakes",
-  "author": "M.B Sweet",
-  "url": "sugah",
-  "likes": 0
+  "title": "fun",
+  "author": "many likes",
+  "url": "!!!!",
+  "likes": 111
 }
