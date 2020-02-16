@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Bad Jokes",
-  "author": "Po Yalka",
-  "url": "jokes on you",
+  "title": "Cupcakes",
+  "author": "M.B Sweet",
+  "url": "sugah",
   "likes": 0
 }
