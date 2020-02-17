@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/5e4942bcc055df44315057ee
+Content-Type: application/json
+
+{
+  "title": "Sweet Potato Mash",
+  "author": "me",
+  "url": "....",
+  "likes": 9
+}
