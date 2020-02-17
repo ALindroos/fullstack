@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+//Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RtYW4iLCJpZCI6IjVlNGE1OTcxOWZlOWE5NmE3ODY0MzBjNiIsImlhdCI6MTU4MTkzODU3OX0.6Fr5TcRTIfI3-bwhDtzOeKwGGexKKsi8dMyGuwgXaHA
 
 {
-  "title": "fun",
-  "author": "many likes",
-  "url": "temp",
-  "likes": 2
+  "title": "test",
+  "author": "bcbb",
+  "url": "te",
+  "likes": 4
 }
