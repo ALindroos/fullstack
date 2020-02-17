@@ -4,9 +4,20 @@ const User = require('../models/user')
 
 usersRouter.post('/', async (request, response, next) => {
   const body = request.body
+  const password = body.password
+
+  if (!password) {
+    return response.status(400).json({
+      error: 'password is required'
+    })
+  } else if (body.password.length < 3) {
+    return response.status(400).json({
+      error: 'password is too short'
+    })
+  }
 
   const salt = bcryptjs.genSaltSync(10)
-  const passwordHash = await bcryptjs.hash(body.password, salt)
+  const passwordHash = await bcryptjs.hash(password, salt)
 
   const user = new User({
     username: body.username,
