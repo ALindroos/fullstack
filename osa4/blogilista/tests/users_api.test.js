@@ -136,6 +136,27 @@ describe('when there is initially one user at db', () => {
   })
 })
 
+test('login works when with correct password and username', async () => {
+  const newUser = {
+    username: 'testman',
+    name: 'M. Elliot',
+    password: 'test_test',
+  }
+
+  await api
+    .post('/api/users')
+    .send(newUser)
+
+  await api
+    .post('/api/login')
+    .send({
+      username: 'testman',
+      password: 'test_test'
+    })
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })

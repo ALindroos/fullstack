@@ -3,12 +3,34 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
 const blogDummy = require('../utils/dummy_blogs')
+const User = require('../models/user')
 
 const api = supertest(app)
+let token = {}
 
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(blogDummy.allBlogs)
+  await User.deleteMany({})
+
+  const newUser = {
+    username: 'testman',
+    name: 'M. Elliot',
+    password: 'test_test',
+  }
+
+  await api
+    .post('/api/users')
+    .send(newUser)
+
+  const result = await api
+    .post('/api/login')
+    .send({
+      username: 'testman',
+      password: 'test_test'
+    })
+
+  token = result.body.token
 })
 
 describe('Getting all blogs', () => {
@@ -38,8 +60,10 @@ describe('Getting all blogs', () => {
 describe('Adding new blogs', () => {
   test('blog can be added', async () => {
     const newBlog = blogDummy.singleBlog[0]
+
     await api
       .post('/api/blogs')
+      .set('Authorization', ('bearer ' + token))
       .send(newBlog)
       .expect(200)
       .expect('Content-Type', /application\/json/)
@@ -53,6 +77,7 @@ describe('Adding new blogs', () => {
     const newBlog = blogDummy.noLikesBlog
     await api
       .post('/api/blogs')
+      .set('Authorization', ('bearer ' + token))
       .send(newBlog)
       .expect(200)
       .expect('Content-Type', /application\/json/)
@@ -66,6 +91,7 @@ describe('Adding new blogs', () => {
     const newBlog = blogDummy.noUrlBlog
     await api
       .post('/api/blogs')
+      .set('Authorization', ('bearer ' + token))
       .send(newBlog)
       .expect(400)
 
@@ -76,8 +102,19 @@ describe('Adding new blogs', () => {
     const newBlog = blogDummy.noTitleBlog
     await api
       .post('/api/blogs')
+      .set('Authorization', ('bearer ' + token))
       .send(newBlog)
       .expect(400)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(blogDummy.allBlogs.length)
+  })
+  test('without authorization token new blog doesnt get added and gives 401 Unauthorized error', async () => {
+    const newBlog = blogDummy.singleBlog[0]
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
 
     const response = await api.get('/api/blogs')
     expect(response.body.length).toBe(blogDummy.allBlogs.length)
