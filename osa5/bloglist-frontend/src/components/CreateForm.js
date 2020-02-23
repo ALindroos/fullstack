@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const CreateForm = ({ createBlog }) => {
+
+  CreateForm.propTypes = {
+    createBlog: PropTypes.func.isRequired
+  }
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')

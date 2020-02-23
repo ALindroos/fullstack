@@ -12,6 +12,7 @@ const loginRouter = require('./controllers/login')
 logger.info('connecting to MongoDB')
 
 mongoose.set('useCreateIndex', true)
+mongoose.set('useFindAndModify', false)
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

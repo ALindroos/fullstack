@@ -31,9 +31,9 @@ const App = () => {
     }
   }, [])
 
-  useEffect(() => {
-    setBlogs(blogs.sort((a, b) => (b.likes - a.likes)))
-  })
+  const sortByLikes = ( sortable ) => {
+    setBlogs(sortable.sort((a,b) => (b.likes - a.likes)))
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -71,10 +71,19 @@ const App = () => {
 
   const updateBlog = async (id, BlogObject) => {
     try {
-      console.log('before' ,BlogObject.likes)
       const updBlog = await blogService.update(id, BlogObject)
-      setBlogs(blogs.map(b => b.id !== id ? b : updBlog))
-      console.log('after' , updBlog.likes)
+      const bloglist = blogs.map(b => b.id !== updBlog.id ? b : updBlog)
+      sortByLikes(bloglist)
+      setBlogs(bloglist)
+    } catch(exception) {
+      console.log(exception)
+    }
+  }
+
+  const removeBlog = async (id) => {
+    try {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(b => b.id !== id))
     } catch(exception) {
       console.log(exception)
     }
@@ -97,7 +106,11 @@ const App = () => {
   return (
     <div>
       <UserForm user={user} handleLogout={handleLogout} />
-      <BlogForm blogs={blogs} user={user} updateBlog={updateBlog} />
+      <BlogForm 
+        blogs={blogs} user={user} 
+        updateBlog={updateBlog} 
+        removeBlog={removeBlog}
+      />
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
         <CreateForm
           createBlog={createBlog}

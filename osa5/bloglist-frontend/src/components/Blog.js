@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Togglable from './Togglable'
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, user, updateBlog, removeBlog }) => {
   const [showInfo, setShowInfo] = useState(false)
+  const [ownBlog, setOwnBlog] = useState(false)
 
   const blogStyle = {
     paddingTop: 10,
@@ -13,9 +14,13 @@ const Blog = ({ blog, updateBlog }) => {
   }
 
   const showWhenVisible = {display: showInfo ? '' : 'none' }
+  const showRemove = {display: ownBlog ? '' : 'none' }
 
   const toggleVisibility = () => {
     setShowInfo(!showInfo)
+    if (user.id === blog.user.id) {
+      setOwnBlog(true)
+   }
   }
 
   const likeBlog = (event) => {
@@ -28,6 +33,13 @@ const Blog = ({ blog, updateBlog }) => {
       user: blog.user
     }
     updateBlog(blog.id, blogObject)
+  }
+
+  const delBlog = (event) => {
+    event.preventDefault()
+    if (window.confirm(`Remove ${blog.title} ?`)) {
+        removeBlog(blog.id)
+    }
   }
   
   return (
@@ -42,7 +54,10 @@ const Blog = ({ blog, updateBlog }) => {
             <button onClick={likeBlog}>
               like
             </button><br />
-            added by: {blog.user.name}
+            added by: {blog.user.name}<br />
+            <button style={showRemove} onClick={delBlog}>
+              remove
+            </button>
           </div>
       </div>
   )
