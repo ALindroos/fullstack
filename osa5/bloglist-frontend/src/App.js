@@ -5,21 +5,19 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import UserForm from './components/UserForm'
 import CreateForm from './components/CreateForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const blogFormRef = React.createRef()
 
   useEffect(() => {
     const initBlogs = async () => {
       const blogs = await blogService.getAll()
-      setBlogs( blogs )
+      setBlogs(blogs.sort((a, b) => (b.likes - a.likes)))
     }
     initBlogs()
   }, [])
@@ -32,6 +30,10 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  useEffect(() => {
+    setBlogs(blogs.sort((a, b) => (b.likes - a.likes)))
+  })
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -57,22 +59,22 @@ const App = () => {
     setUser(null)
   }
 
-  const handleCreate = async (event) => {
-    event.preventDefault()
+  const createBlog = async (BlogObject) => {
+    blogFormRef.current.toggleVisibility()
     try {
-      const BlogObject = {
-        title: title,
-        author: author,
-        url: url,
-      }
       const newBlog = await blogService.create(BlogObject)
-
-      console.log(newBlog)
-      setAuthor('')
-      setTitle('')
-      setUrl('')
       setBlogs(blogs.concat(newBlog))
+    } catch(exception) {
+      console.log(exception)
+    }
+  }
 
+  const updateBlog = async (id, BlogObject) => {
+    try {
+      console.log('before' ,BlogObject.likes)
+      const updBlog = await blogService.update(id, BlogObject)
+      setBlogs(blogs.map(b => b.id !== id ? b : updBlog))
+      console.log('after' , updBlog.likes)
     } catch(exception) {
       console.log(exception)
     }
@@ -95,18 +97,15 @@ const App = () => {
   return (
     <div>
       <UserForm user={user} handleLogout={handleLogout} />
-      <BlogForm blogs={blogs} user={user} />
-      <CreateForm
-        handleCreate={handleCreate}
-        title={title}
-        onTitleChange={({ target }) => setTitle(target.value)}
-        author={author}
-        onAuthorChange={({ target }) => setAuthor(target.value)}
-        url={url}
-        onUrlChange={({ target }) => setUrl(target.value)}  
-      />
+      <BlogForm blogs={blogs} user={user} updateBlog={updateBlog} />
+      <Togglable buttonLabel="new blog" ref={blogFormRef}>
+        <CreateForm
+          createBlog={createBlog}
+        />
+      </Togglable>
     </div>
   )
 }
+
 
 export default App
