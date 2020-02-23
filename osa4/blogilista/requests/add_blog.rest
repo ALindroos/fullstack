@@ -3,8 +3,7 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFhcG8iLCJpZCI6IjVlNGE4YzJhNzg4MjhmMGQzMTYzOGFhZSIsImlhdCI6MTU4MjM2MDA0MX0.hXgdcSmmYbGyQB_VTbV4nqltYzKufblwI04Inrglxts
 
 {
-    "title": "SeaBed - A Diary Entry",
-    "author": "Kastel",
-    "url": "https://tanoshimi.xyz/2016/04/16/ever17-review/",
-    "likes": 7
+    "title": "Canonical string reduction",
+    "author": "Edsger W. Dijkstra",
+    "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html"
   }

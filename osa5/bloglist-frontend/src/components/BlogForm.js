@@ -1,7 +1,7 @@
 import React from 'react'
 import Blog from './Blog'
 
-const BlogForm = ( {blogs} ) => {
+const BlogForm = ({ blogs, user }) => {
   return(
     <div>
         <h2>blogs</h2>
