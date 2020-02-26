@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Togglable from './Togglable'
 
 const Blog = ({ blog, user, updateBlog, removeBlog }) => {
   const [showInfo, setShowInfo] = useState(false)
