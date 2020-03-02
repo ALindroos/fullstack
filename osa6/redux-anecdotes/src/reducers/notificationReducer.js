@@ -1,13 +1,15 @@
 
 const initiaState = null
+let timeoutId
 
 export const setNotification = (content, delay) => {
   return async dispatch => {
+    clearTimeout(timeoutId)
     dispatch({
       type: 'SET',
       content: content
     })
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       dispatch(nullNotification())
     }, delay * 1000)
   }
