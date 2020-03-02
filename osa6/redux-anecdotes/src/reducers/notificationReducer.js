@@ -1,10 +1,15 @@
 
 const initiaState = null
 
-export const setNotification = (head, content) => {
-  return {
-    type: 'SET',
-    content: `${head} '${content}'`
+export const setNotification = (content, delay) => {
+  return async dispatch => {
+    dispatch({
+      type: 'SET',
+      content: content
+    })
+    setTimeout(() => {
+      dispatch(nullNotification())
+    }, delay * 1000)
   }
 }
 
