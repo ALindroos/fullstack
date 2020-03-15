@@ -9,10 +9,10 @@ import Togglable from './components/Togglable'
 import Users from './components/User'
 import { useDispatch } from 'react-redux'
 import { getUsers } from './reducers/usersReducer'
+import { allBlogs } from './reducers/BlogReducer'
 
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -22,17 +22,8 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getUsers())
-  },[dispatch])
-
-
-
-  useEffect(() => {
-    const initBlogs = async () => {
-      const blogs = await blogService.getAll()
-      setBlogs(blogs.sort((a, b) => (b.likes - a.likes)))
-    }
-    initBlogs()
-  }, [])
+    dispatch(allBlogs())
+  },[])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -42,10 +33,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  const sortByLikes = ( sortable ) => {
-    setBlogs(sortable.sort((a,b) => (b.likes - a.likes)))
-  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -71,36 +58,6 @@ const App = () => {
     setUser(null)
   }
 
-  const createBlog = async (BlogObject) => {
-    blogFormRef.current.toggleVisibility()
-    try {
-      const newBlog = await blogService.create(BlogObject)
-      setBlogs(blogs.concat(newBlog))
-    } catch(exception) {
-      console.log(exception)
-    }
-  }
-
-  const updateBlog = async (id, BlogObject) => {
-    try {
-      const updBlog = await blogService.update(id, BlogObject)
-      const bloglist = blogs.map(b => b.id !== updBlog.id ? b : updBlog)
-      sortByLikes(bloglist)
-      setBlogs(bloglist)
-    } catch(exception) {
-      console.log(exception)
-    }
-  }
-
-  const removeBlog = async (id) => {
-    try {
-      await blogService.remove(id)
-      setBlogs(blogs.filter(b => b.id !== id))
-    } catch(exception) {
-      console.log(exception)
-    }
-  }
-
   if (user === null) {
     return (
       <div>
@@ -118,15 +75,10 @@ const App = () => {
   return (
     <div>
       <UserForm user={user} handleLogout={handleLogout} />
-      <BlogForm
-        blogs={blogs} user={user}
-        updateBlog={updateBlog}
-        removeBlog={removeBlog}
+      <BlogForm user={user}
       />
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
-        <CreateForm
-          createBlog={createBlog}
-        />
+        <CreateForm />
       </Togglable>
       <Users />
     </div>

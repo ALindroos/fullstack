@@ -34,10 +34,19 @@ const remove = async (id) => {
   return response.data
 }
 
+
+const like = async (id, newObject) => {
+  const likedBlog = newObject
+  likedBlog.likes = likedBlog.likes + 1
+  const response = await axios.put(`${baseUrl}/${id}`, likedBlog)
+  return response.data
+}
+
 export default {
   getAll,
   setToken,
   create,
   update,
-  remove
+  remove,
+  like
 }

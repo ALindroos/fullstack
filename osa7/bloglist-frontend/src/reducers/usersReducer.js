@@ -4,7 +4,7 @@ export const getUsers = () => {
   return async dispatch => {
     const users = await userService.getUsers()
     dispatch({
-      type: 'ALL',
+      type: 'ALL_USERS',
       data: users
     })
   }
@@ -12,7 +12,7 @@ export const getUsers = () => {
 
 const usersReducer = (state = [], action) => {
   switch (action.type) {
-  case 'ALL':
+  case 'ALL_USERS':
     return action.data
   default: return state
   }
