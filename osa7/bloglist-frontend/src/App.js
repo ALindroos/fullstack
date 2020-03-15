@@ -9,6 +9,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUsers } from './reducers/usersReducer'
 import { allBlogs } from './reducers/BlogReducer'
 import { init } from './reducers/currentUserReducer'
+import {
+  BrowserRouter as Router, Switch, Route, Link
+} from 'react-router-dom'
+import User from './components/User'
 
 
 const App = () => {
@@ -33,14 +37,21 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Router>
       <UserForm />
-      <BlogForm />
-      <Togglable buttonLabel="new blog" ref={blogFormRef}>
-        <CreateForm />
-      </Togglable>
-      <Users />
-    </div>
+      <Switch>
+        <Route path='/users/:id'>
+          <User />
+        </Route>
+        <Route path='/'>
+          <BlogForm />
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+            <CreateForm />
+          </Togglable>
+          <Users />
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
