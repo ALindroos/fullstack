@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
-import loginService from '../services/login'
 import { login } from '../reducers/currentUserReducer'
 import { useDispatch } from 'react-redux'
 

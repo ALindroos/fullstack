@@ -11,8 +11,6 @@ const UserForm = () => {
   }
 
   const user = useSelector(state => state.currentUser)
-  console.log(user.name)
-
 
   return (
     <div>
