@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { like, remove } from '../reducers/BlogReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog }) => {
   const [showInfo, setShowInfo] = useState(false)
   const [ownBlog, setOwnBlog] = useState(false)
 
   const dispatch = useDispatch()
+
+  const user = useSelector(state => state.currentUser)
 
   const blogStyle = {
     paddingTop: 10,

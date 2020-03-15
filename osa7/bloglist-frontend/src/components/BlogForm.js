@@ -3,7 +3,7 @@ import Blog from './Blog'
 import { useSelector } from 'react-redux'
 
 
-const BlogForm = ({ user }) => {
+const BlogForm = () => {
 
   const blogs = useSelector(state => state.blogs)
   blogs.sort((a, b) => (b.likes - a.likes))
@@ -14,7 +14,6 @@ const BlogForm = ({ user }) => {
       {blogs.map(blog =>
         <Blog
           key={blog.id} blog={blog}
-          user={user}
         />
       )}
     </div>

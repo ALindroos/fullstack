@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 const Users = () => {
   const users = useSelector(state => state.users)
+  users.sort((a, b) => (b.blogs.length - a.blogs.length))
 
   return (
     <div>
