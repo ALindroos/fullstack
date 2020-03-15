@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { like, remove } from '../reducers/BlogReducer'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ blog }) => {
   const [showInfo, setShowInfo] = useState(false)
@@ -40,7 +41,7 @@ const Blog = ({ blog }) => {
 
   return (
     <div className='blog' style={blogStyle}>
-      <b onClick={toggleVisibility}>{blog.title}</b> {blog.author}
+      <Link to={`/blogs/${blog.id}`}><b>{blog.title}</b></Link> {blog.author}
       <button id='info-button' onClick={toggleVisibility}>
         {showInfo ? 'hide' : 'show' }
       </button>

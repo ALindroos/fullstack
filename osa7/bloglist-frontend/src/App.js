@@ -13,6 +13,7 @@ import {
   BrowserRouter as Router, Switch, Route, Link
 } from 'react-router-dom'
 import User from './components/User'
+import SingleBlog from './components/SingleBlog'
 
 
 const App = () => {
@@ -36,19 +37,32 @@ const App = () => {
     )
   }
 
+  const padding = {
+    padding: 5
+  }
+
   return (
     <Router>
-      <UserForm />
+      <div>
+        <Link style={padding} to='/'>Blogs</Link>
+        <Link style={padding} to='/users'>Users</Link>
+        <UserForm />
+      </div>
       <Switch>
         <Route path='/users/:id'>
           <User />
+        </Route>
+        <Route path='/blogs/:id'>
+          <SingleBlog />
+        </Route>
+        <Route path='/users'>
+          <Users />
         </Route>
         <Route path='/'>
           <BlogForm />
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <CreateForm />
           </Togglable>
-          <Users />
         </Route>
       </Switch>
     </Router>

@@ -13,12 +13,12 @@ const UserForm = () => {
   const user = useSelector(state => state.currentUser)
 
   return (
-    <div>
+    <>
       {user.name} logged in
       <button id="logout-button" onClick={handleLogout}>
           logout
       </button>
-    </div>
+    </>
   )
 }
 
