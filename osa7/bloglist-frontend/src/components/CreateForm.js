@@ -23,25 +23,25 @@ const CreateForm = ({ createBlog }) => {
     setAuthor('')
     setUrl('')
   }
-    
+
   return(
     <form onSubmit={addBlog}>
       <div>
         title:
         <input
-          type="text" 
+          type="text"
           value={title}
           id='title'
-          onChange={({ target }) => setTitle(target.value)} 
+          onChange={({ target }) => setTitle(target.value)}
         />
       </div>
       <div>
         author:
-        <input 
+        <input
           type="text"
           value={author}
           id='author'
-          onChange={({ target }) => setAuthor(target.value)} 
+          onChange={({ target }) => setAuthor(target.value)}
         />
       </div>
       <div>
@@ -54,7 +54,7 @@ const CreateForm = ({ createBlog }) => {
         />
       </div>
       <div>
-        <button id="create-button" type="submit" type="post">add blog</button>
+        <button id="create-button" type="submit">add blog</button>
       </div>
     </form>
   )

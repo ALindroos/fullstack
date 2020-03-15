@@ -7,6 +7,9 @@ import UserForm from './components/UserForm'
 import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
 import Users from './components/User'
+import { useDispatch } from 'react-redux'
+import { getUsers } from './reducers/usersReducer'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +17,14 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const blogFormRef = React.createRef()
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getUsers())
+  },[dispatch])
+
+
 
   useEffect(() => {
     const initBlogs = async () => {
