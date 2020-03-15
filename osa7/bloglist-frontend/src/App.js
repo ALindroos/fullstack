@@ -6,6 +6,7 @@ import BlogForm from './components/BlogForm'
 import UserForm from './components/UserForm'
 import CreateForm from './components/CreateForm'
 import Togglable from './components/Togglable'
+import Users from './components/User'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -97,7 +98,7 @@ const App = () => {
           username={username}
           onUsernameChange={({ target }) => setUsername(target.value)}
           password={password}
-          onPasswordChange={({ target }) => setPassword(target.value)} 
+          onPasswordChange={({ target }) => setPassword(target.value)}
         />
       </div>
     )
@@ -106,9 +107,9 @@ const App = () => {
   return (
     <div>
       <UserForm user={user} handleLogout={handleLogout} />
-      <BlogForm 
-        blogs={blogs} user={user} 
-        updateBlog={updateBlog} 
+      <BlogForm
+        blogs={blogs} user={user}
+        updateBlog={updateBlog}
         removeBlog={removeBlog}
       />
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
@@ -116,6 +117,7 @@ const App = () => {
           createBlog={createBlog}
         />
       </Togglable>
+      <Users />
     </div>
   )
 }
